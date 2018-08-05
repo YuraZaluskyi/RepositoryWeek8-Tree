@@ -30,15 +30,23 @@ public class TestBinaryTree {
 //        binaryTree.removeNode(50);
 
         binaryTree.put(45, "45");
-        binaryTree.put(45, "50");
-        binaryTree.put(45, "60");
+        binaryTree.put(50, "50");
+        binaryTree.put(60, "60");
+        binaryTree.put(55, "55");
+        binaryTree.put(56, "56");
+        binaryTree.put(54, "54");
+        binaryTree.put(51, "51");
+        binaryTree.put(53, "53");
+        binaryTree.put(57, "57");
         binaryTree.put(30, "30");
         binaryTree.put(25, "25");
-        binaryTree.put(20, "20");
-        binaryTree.put(10, "10");
-        binaryTree.put(5, "5");
 
-        System.out.println(binaryTree.printNode(binaryTree.findNode(25)));
+        System.out.println(binaryTree.toString());
+        binaryTree.removeNode(50);
+        System.out.println(binaryTree.toString());
+
+
+
 
 
 

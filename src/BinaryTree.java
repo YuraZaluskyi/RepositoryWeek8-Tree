@@ -135,8 +135,11 @@ public class BinaryTree<K extends Comparable<K>, V> {
     public void removeNode(K key) {
         TreeNode<K, V> delNode;
         TreeNode<K, V> ancestor;
+        TreeNode<K, V> successor;
+        TreeNode<K, V> ancestorSuccessor;
         delNode = findNode(key);
         ancestor = delNode.root;
+
 //   if deleted node has not any descendent //////////////////////
         if (delNode.leftHeir == null && delNode.rightHeir == null) {
             if (ancestor == null) {
@@ -150,6 +153,7 @@ public class BinaryTree<K extends Comparable<K>, V> {
                 }
                 size--;
             }
+
 //  if deleted node has at least one descendent  /////////////////////
         } else if ((delNode.leftHeir != null && delNode.rightHeir == null) || (delNode.leftHeir == null && delNode.rightHeir != null)) {
             if (ancestor == null) {
@@ -178,84 +182,66 @@ public class BinaryTree<K extends Comparable<K>, V> {
                 }
 
             }
+
 //  if deleted node has both descendents /////////////////////////////////////////////////////////////
         } else {
-            TreeNode<K, V> successor;
-            TreeNode<K, V> parent;
-            TreeNode<K, V> parentSuccessor;
-            parent = delNode.root;
+
 //  if right heir of deleted node has not left heir //////////////////////////////////////////////////
             if (delNode.rightHeir.leftHeir == null) {
                 successor = delNode.rightHeir;
+                successor.root = ancestor;
+                successor.leftHeir = delNode.leftHeir;
+                delNode.leftHeir.root = successor;
 
-                if (parent.rightHeir == delNode) {
-                    successor.root = parent;
-                    parent.rightHeir = successor;
-                    successor.leftHeir = delNode.leftHeir;
-                    delNode.leftHeir.root = successor;
+                if (ancestor.rightHeir == delNode) {
+
+                    ancestor.rightHeir = successor;
                     size--;
-                } else if (parent.leftHeir == delNode) {
-                    successor.root = parent;
-                    parent.leftHeir = successor;
-                    successor.leftHeir = delNode.leftHeir;
-                    delNode.leftHeir.root = successor;
+
+                } else if (ancestor.leftHeir == delNode) {
+
+                    ancestor.leftHeir = successor;
                     size--;
                 }
+
 //  if right heir of deleted node has left heir //////////////////////////////////////////////////
             } else if (delNode.rightHeir.leftHeir != null) {
+
                 successor = findSuccessor(delNode.rightHeir);
-                if (successor.rightHeir == null){
-                    if (parent.rightHeir == delNode){
-                        parentSuccessor = successor.root;
-                        successor.root = parent;
-                        parent.rightHeir = successor;
-                        successor.leftHeir = delNode.leftHeir;
-                        successor.rightHeir = delNode.rightHeir;
-                        delNode.leftHeir.root = successor;
-                        parentSuccessor.leftHeir = null;
+                ancestorSuccessor = successor.root;
+                successor.root = ancestor;
+                successor.rightHeir = delNode.rightHeir;
+                successor.leftHeir = delNode.leftHeir;
+                successor.rightHeir = delNode.rightHeir;
+                delNode.leftHeir.root = successor;
+                ancestorSuccessor.leftHeir = null;
+                ancestorSuccessor = successor.rightHeir;
+
+                if (successor.rightHeir == null) {
+
+                    if (ancestor.rightHeir == delNode) {
+                        ancestor.rightHeir = successor;
                         size--;
-                    } else if (parent.leftHeir == delNode){
-                        parentSuccessor = successor.root;
-                        successor.root = parent;
-                        parent.leftHeir = successor;
-                        successor.leftHeir = delNode.leftHeir;
-                        successor.rightHeir = delNode.rightHeir;
-                        delNode.leftHeir.root = successor;
-                        parentSuccessor.leftHeir = null;
+
+                    } else if (ancestor.leftHeir == delNode) {
+                        ancestor.leftHeir = successor;
                         size--;
                     }
 
-                } else if (successor.rightHeir != null){
-                    if (parent.rightHeir == delNode){
-                        parentSuccessor = successor.root;
-                        successor.root = parent;
-                        parent.rightHeir = successor;
-                        successor.leftHeir = delNode.leftHeir;
-                        successor.rightHeir = delNode.rightHeir;
-                        delNode.leftHeir.root = successor;
-                        parentSuccessor.leftHeir = null;
-                        parentSuccessor = successor.rightHeir;
+                } else if (successor.rightHeir != null) {
 
-                        size--;
-                    } else if (parent.leftHeir == delNode){
-                        parentSuccessor = successor.root;
-                        successor.root = parent;
-                        parent.leftHeir = successor;
+                    if (ancestor.rightHeir == delNode) {
+                        ancestor.rightHeir = successor;
                         successor.leftHeir = delNode.leftHeir;
-                        successor.rightHeir = delNode.rightHeir;
-                        delNode.leftHeir.root = successor;
-                        parentSuccessor.leftHeir = null;
-                        parentSuccessor = successor.rightHeir;
+                        size--;
+
+                    } else if (ancestor.leftHeir == delNode) {
+                        ancestor.leftHeir = successor;
+                        successor.leftHeir = delNode.leftHeir;
                         size--;
                     }
-
                 }
-
             }
-
-
         }
-
     }
-
 }
