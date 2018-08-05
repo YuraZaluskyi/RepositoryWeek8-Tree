@@ -210,7 +210,6 @@ public class BinaryTree<K extends Comparable<K>, V> {
                 successor = findSuccessor(delNode.rightHeir);
                 ancestorSuccessor = successor.root;
                 successor.root = ancestor;
-                successor.rightHeir = delNode.rightHeir;
                 successor.leftHeir = delNode.leftHeir;
                 successor.rightHeir = delNode.rightHeir;
                 delNode.leftHeir.root = successor;
