@@ -140,7 +140,7 @@ public class BinaryTree<K extends Comparable<K>, V> {
         delNode = findNode(key);
         ancestor = delNode.root;
 
-//   if deleted node has not any descendent //////////////////////
+//   if deleted node has not any descendent //////////////////////////////
         if (delNode.leftHeir == null && delNode.rightHeir == null) {
             if (ancestor == null) {
                 root = null;
@@ -214,7 +214,7 @@ public class BinaryTree<K extends Comparable<K>, V> {
                 successor.rightHeir = delNode.rightHeir;
                 delNode.leftHeir.root = successor;
                 ancestorSuccessor.leftHeir = null;
-                ancestorSuccessor = successor.rightHeir;
+                ancestorSuccessor.leftHeir = successor.rightHeir;
 
                 if (successor.rightHeir == null) {
 
